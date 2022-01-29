@@ -1,0 +1,691 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to - test Arabic and Hebrew</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      html {
+          scroll-behavior: smooth;
+      }
+      main > nav {
+          position: sticky;
+          top: 1rem;
+          align-self: start;
+          font-size: 15.2px;
+      }
+      .section-nav li.active > a {
+          color: #333;
+          font-weight: 500;
+      }
+      .section-nav {
+          padding-left: 0;
+          border-left: 1px solid #efefef;
+          position: sticky;
+          top: 1rem;
+          align-self: start;
+          font-size: 10.2px;
+          height: 700px;
+          overflow-y: auto;
+      }
+      .section-nav a {
+          text-decoration: none;
+          display: block;
+          padding: 0.125rem 0;
+          color: rgb(177, 176, 176);
+          transition: all 50ms ease-in-out;
+      }
+      .section-nav a:hover,
+      .section-nav a:focus {
+          color: #666;
+      }
+      * {
+          box-sizing: border-box;
+      }
+      html,
+      body {
+          background: #fff;
+      }
+      body {
+          font-family: font-family: 'Avenir Next', Avenir Next;
+      }
+      nav ol {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+      }
+      nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+      }
+      li {
+          margin-left: 1rem;
+      }
+      h1 {
+          font-weight: 300;
+      }
+      main {
+          display: grid;
+          grid-template-columns: 1fr 18em;
+          max-width: 100em;
+          width: 95%;
+          margin: 0 auto;
+      }
+      section {
+          padding-bottom: 0.5rem;
+      }
+      h3 {
+          color: #8a8883;
+      }
+      h4 {
+        color: #50535A;
+        font-size: 1.2rem;
+        padding-top: 1.2rem;
+      }
+      b {
+          color: cadetblue;
+      }
+      figure, figcaption {
+          text-align: center;
+      }
+      table, th, td {
+
+          margin-left: auto;
+          margin-right: auto;
+          border: 1px solid #ddd;
+          padding: 5px;
+      }
+      table {
+        width: 100%;
+      }
+      .coordin td, th, tr {
+        width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const id = entry.target.getAttribute("id");
+            if (entry.intersectionRatio > 0) {
+              document
+                .querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.add("active");
+            } else {
+              document
+                .querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.remove("active");
+            }
+          });
+        });
+
+        // Track all sections that have an `id` applied
+        document.querySelectorAll("section[id]").forEach((section) => {
+          observer.observe(section);
+        });
+      });
+    </script>
+    <div class="Content">
+      <main>
+          <div class="main">
+
+              <h2 style="color: #426ccf;">How to - test Arabic and Hebrew</h2>
+              <section id='introd'>
+                  <h3>Characteristics of Arabic or Hebrew (compared to other languages)</h3>
+                  <p>
+                    Middle Eastern languages such as Hebrew and Arabic are written predominantly right-to-left (RTL). Consequently, user interfaces require a different layout than those targeted at left-to-right (LTR) reading audiences. The direction of writing influences how information should be placed on the screen.
+                  </p>
+                  <p>
+                    The main flow of the page goes in RTL direction, in other words, mirrored relative to English. The script may contain numbers and Latin words that are still written LTR. Most of the icons are not mirrored (there are some special cases that will be discussed later), but they should be listed in RTL order.
+                  </p>
+                  <p>
+                    For more details about the bidirectional (BiDi) nature of Arabic and Hebrew, see
+
+                  <a href="https://i18n.esri.com/website/html/RTL/index.html#intro_2" target="_blank">Why these languages are called bidirectional</a>.</p>
+                  </figure>
+                </section>
+
+                <section id='testenv'>
+                  <h3>Setting up the test environment</h3>
+
+                  <p><a href="https://i18n.esri.com/website/l10n-i18ntesting#testenv-regionalSetting/" target="_blank">Desktop OS and apps</a></p>
+                  <p><a href="https://i18n.esri.com/website/l10n-i18ntesting#testenv-publicServer/" target="_blank">Test environment for ArcGIS Enterprise</a></p>
+                  <p><a href="https://i18n.esri.com/website/l10n-i18ntesting#testenv-mobileSetting/" target="_blank">How to change language and region on mobile devices</a></p>
+                  <p><a href="https://i18n.esri.com/website/l10n-i18ntesting#testenv-browserLanguage/" target="_blank">How to change language in web browsers</a></p>
+                  <p><a href="https://i18n.esri.com/website/l10n-i18ntesting#testenv-vm/" target="_blank">How to deploy Windows Virtual Machines</a></p>
+
+
+                <h4>General recommendations</h4>
+                    <p>
+                      Regardless of whether you can read the language you are testing, it is always a good practice to open English and non-English UI side by side to be able to compare UI and quickly locate a necessary tool or command. It may be two virtual machine (VM) windows or two web-browser windows positioned side by side. Another helpful trick for languages you can’t read is to use the Google Translate app by pointing your smartphone’s camera at text to translate it.
+                    </p>
+                    <table>
+                      <tr>
+                          <th>Platform</th>
+                          <th>Locale source</th>
+                          <th>Where to test</th>
+                      </tr>
+                      <tr>
+                          <td>ArcGIS Pro, ArcGIS Desktop and other desktop apps</td>
+                          <td>OS and MUI*</td>
+                          <td>AR VM for AR<br>EN VM for HE</td>
+                        </tr>
+                        <tr>
+                          <td>Web applications</td>
+                          <td>User profile and browser</td>
+                          <td>Your browser with “display pages ” set to AR or HE (downloading and installing pure localized browser to test is preferrable)</td>
+                        </tr>
+                        <tr>
+                          <td>Web applications in mobile mode</td>
+                          <td>User profile and OS</td>
+                          <td>Dev mode of your desktop browser is okay, but a physical device is preferable</td>
+                      </tr>
+                      <tr>
+                          <td>Mobile apps</td>
+                          <td>OS</td>
+                          <td>Physical device or emulator</td>
+                      </tr>
+                  </table>
+                  <figcaption>Table 1. Where to test localized versions on different platforms</figcaption>
+                    <p>
+                      <i>* The Multilingual User Interface, related to the MUI file format, is a technology developed by Microsoft for the Windows system, MS Office and other software, which allows the installation of multiple interface languages.</i>
+                    </p>
+                    <p>
+                      See <a href="https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8#WindowsVersion=Windows_8.1" target="_blank">Language packs for Windows</a> on the Microsoft support site to learn how to install a language pack (LP) for Windows DT. These instructions do not include Windows Server.
+                    </p>
+
+                    <p>
+                      For Windows Server, browse to  <a href="\\esri.com\software\OS\Microsoft\WindowsServer" target="_blank">\\esri.com\software\OS\Microsoft\WindowsServer</a> and download the .iso file containing the language that you want. Unpack the .iso file and save it in a folder on the C drive. Then open a command prompt and run the command "lpksetup.exe."
+                    </p>
+                    <p>
+                      Follow the prompts in the GUI that appears.
+                    </p>
+
+                <h4>Testing on ArcGIS Pro and Desktop</h4>
+                    <p>
+                      For ArcGIS Pro and Desktop, install Hebrew and Arabic LPs for Desktop products. Test Arabic using VMs that should be either deployed by a tester or connect to an Arabic VM from the public inventory to test with it. In case VMs resources are exhausted, MUI can be applied for testing.
+                    </p>
+                    <p>
+                      Hebrew testing can be done using English OS, but you must set the user and system locale to Hebrew.
+                    </p>
+                    <p>
+                      It is recommended that you open one window of a VM with an Arabic or Hebrew version of the product you are testing and compare it side by side with an English version opened on your desktop or another VM.
+                    </p>
+                    <p>
+                      To get a VM, see <a href="https://ecsprd.esri.com/" target="_blank">https://ecsprd.esri.com/</a>.
+                    </p>
+
+                <h4>Testing web apps</h4>
+                    <p>
+                      To test web apps, you don’t need to run a Hebrew or Arabic VM. If needed, you can test in English VM on your regular machine. It is recommended that you open English UI in one browser window or tab and Arabic or Hebrew UI in another browser window or tab. Positioning windows with two different languages side by side allows you to compare UI and quickly locate what you need to test. While you can set the browser language independently from Windows OS, the Safari browser depends on the Mac OS language, so you must change the OS language if you need to test in Safari.
+                    </p>
+                    <p>
+                      Some web applications, such as Map Viewer, support a locale property where you can switch the language for testing. For instance, adding ‘&locale=ar’ at the end of the URL will change the page language to Arabic, but it only works if you stay on that page.
+                    </p>
+
+                <h4>Testing web applications in mobile mode</h4>
+                    <p>
+                      If physical mobile devices are not available, some UI mobile testing can also be performed with developer mode or just smaller window size in desktop browsers, but it is highly recommended that you use physical devices.
+                    </p>
+                    <p>
+                      Mobile apps usually rely on the OS language. That means that to test a mobile app with Arabic or Hebrew language, you need to change your device language and region.
+                    </p>
+                  </section>
+
+              <section id='pseudot'>
+
+              <h3>Pseudo versus real translations</h3>
+                    <p>
+                      For testing for UI elements, like layout direction, buttons, icons, tools order, and to find hard-coded strings, you don't need to wait for real translation; pseudo translations are fine. To check for other UI issues like truncation, overlapping, text justification, word wrap, and so on,, you must wait for real translations, because the mixed nature of English and localized characters in pseudo translation may produce false alarms.
+                    </p>
+                    <p>
+                      <i>English source string:</i>
+                    </p>
+                    <p>
+                      <strong>word 1). word 2). word 3).</strong>
+                    </p>
+                    <figure>
+                      <img src="img/falsealarm1.png" style="width: 100%;"><br>
+                      <figcaption>English UI</figcaption>
+                    </figure>
+                    <figure>
+                      <img src="img/falsealarm2.png" style="width: 100%;"><br>
+                      <figcaption>In pseudo translated UI, the ")" after word 3 is mirrored and moved to the left, producing a false alarm.</figcaption>
+                    </figure>
+                    <figure>
+                      <img src="img/falsealarm3.png" style="width: 100%;"><br>
+                      <figcaption>In the translated UI, all punctuation displays correctly.</figcaption>
+                    </figure>
+                </section>
+
+              <section id='differ'>
+              <h3>Main differences between Hebrew and Arabic</h3>
+
+                    <p>
+                      The following details the main differences between the two languages.
+                    </p>
+
+                <h4>Numerals</h4>
+                  <p>
+                    Hebrew uses Western numerals in UI and technical literature.
+                  </p>
+                  <p>
+                    Some locales of Arabic language (AR-Egypt) may use Indic numerals instead of Western numerals. In web apps, all numerals are expected to be Western. Desktop and mobile apps may use Indic numerals from the operational system. To learn more, see <a href="https://i18n.esri.com/website/html/RTL/index.html#intro_6" target="_blank">Numerals and math</a>.
+                  </p>
+                  <p>
+                    It is a good practice to allow users to choose the numeral systems to use.
+                  </p>
+                  <p>
+                    Sometimes you can see a mixture of Western and Indic numbers within a panel or an input box, but it is a bug. Numbers should be consistent.
+                  </p>
+
+                  <figure>
+                        <img src="img/mixtureIndic.png" style="width: 600px;"><br>
+                      <figcaption>An example of mixture of Western and Indic numerals within a panel (yellow) and within an input box (red circle). All numerals should be either Western or Indic only. The combination of Indic number seven  (٧ ) and Western number zero (0) in the box circled with red is inacceptable.</figcaption>
+                  </figure>
+
+                <h4>Percent sign</h4>
+                  <p>
+                    The percent sign position is left of the number (%100) in Arabic, and right of the number (100%) in Hebrew. For Indic numerals, a special character for the percent symbol may be used (٪١٠٠).
+                  </p>
+
+                  <dfn>
+                        Note: In the Turkish language, the percent sign also goes to the left (%100).
+                  </dfn>
+
+                <h4>Question mark</h4>
+                  <p>
+                    In Hebrew, the question mark is the same as in English, just located to the left:
+
+                      <img src='img/questionHE.png'><br>
+                  </p>
+                  <p>
+                    In Arabic, the question mark is not only located to the left, but the symbol itself is flipped:
+
+                      <img src='img/questionAR.png'><br>
+                  </p>
+                    </section>
+
+              <section id='mirror'>
+              <h3>Mirroring versus bidirectional</h3>
+                    <p>
+                      It is incorrect to think that because Arabic and Hebrew are right-to-left languages, all UI should be the same as in English, just mirrored. Actually, those languages are bidirectional, and testers must be aware of what to mirror and what not to mirror.
+                    </p>
+                    <p>
+                      Formulas, equations, measurements, scientific notations, URLs, programming and scripting languages, and SQL queries stay in LTR.
+                    </p>
+
+                    <table>
+                          <tr>
+                              <th>Mirror</th>
+
+                          </tr>
+                          <tr>
+                              <td>
+                                  <ul>
+                                    <li>Icons that communicate direction must flip their meanings:</li>
+                                        <ul>
+                                          <li>Back/Forward</li>
+                                          <li>Next/Previous</li>
+                                          <li>Redo/Undo</li>
+                                        </ul>
+                                    <li>Menu and submenu items</li>
+                                    <li>Volume icons</li>
+                                    <li>Bulleted lists</li>
+                                    <li>Ordered lists (don’t flip numbers)</li>
+
+                              </td>
+                          <tr>
+                            <th>Do NOT mirror</th>
+                          </tr>
+                          <tr>
+                              <td>
+                                <ul>
+                                  <li>Icons that do not communicate direction<br>
+                                  <img src='img/IconsNoFlip.png'></li>
+                                  <li>Position of widgets within the map frame</li>
+                                  <li>Numbers</li>
+                                  <li>English (untranslated) text</li>
+                                  <li>Play progress bars, time sliders, and any kind of horizontal sliders (min stays on the left and max stays on the right)*</li>
+                                  <li>Charts and graphs</li>
+                                  <li>Logos, trademarks, north arrows</li>
+                                  <li>Server and domain names, URLs</li>
+                                  <li>Formulas, equations, measurements, scientific notations, programming and scripting languages, and SQL queries</li>
+
+                                  <li>On and off switches <img src='img/OnButton.JPG'></li>
+                          </tr>
+                        </table>
+                        <figcaption>Examples of what to mirror and what not to mirror</figcaption>
+                        <p><em>*In external documentation, you may find recommendations to flip some of them. It is recommended to keep them LTR because of technical limitations and for consistency reasons.</em><p>
+
+                  </section>
+
+                  <section id='bidi'>
+
+                    <h3>Handling bidirectional languages UI checklist</h3>
+                      <h4>Text display in Arabic and Hebrew</h4>
+                        <p>
+                          Both Hebrew and Arabic alphabets have 24 characters. Some characters should be written differently depending on their position in the word (beginning, middle, end and stand-alone). If Arabic text is displayed as disjoined characters, it is a bug.
+                        </p>
+                            <img src='img/Disjoined.jpg'>
+                        <p>
+                          <a href="https://www.omniglot.com/writing/hebrew.htm" target="_blank">Learn more about the Hebrew alphabet</a>
+                        </p>
+                        <p>
+                          <a href="https://www.omniglot.com/writing/arabic.htm" target="_blank">Learn more about the Arabic alphabet</a>
+                        </p>
+                        <p>
+                              Numbers, English names, and citations within the RTL text are written in LTR direction within the text flow. Stand-alone English text may be right-aligned, in general going in a LTR direction. Punctuation is so-called weak characters, and they are placed at the end of the string on the left. In this example, the tester has wrapped part of a HE expression into the LTR tag to overwrite the browser default behavior that was incorrectly rearranging the string word order:
+                        </p>
+                            <img src='img/KernelVersion.JPG' width="100%">
+                        <p>
+                              <a href="https://www.w3.org/International/articles/inline-bidi-markup/uba-basics#neutralcharacters" target="_blank">More detailed information about weak or neutral characters</a>
+                            </p>
+
+                    <h4>URLs and file paths are always LTR.</h4>
+
+                        <p>
+                          Keep them LTR. They can be right-aligned.
+                        </p>
+                            <figure>
+                              <img src='img/URL_LTR.jpg' style="width: 48%;">
+                              <img src='img/URL_RTL.jpg' style="width: 48%;">
+                              <img src='img/URL_RTL_incorrect.jpg' style="width: 50%;"><br>
+                              <figcaption>The &gt sign at the end of the image URL part is incorrectly wrapped to the left side of a URL placeholder.</figcaption>
+                            </figure>
+
+                      <h4>Date formats—Numbers are written LTR, text flow is RTL</h4>
+                            <p>
+                              If, for instance, in the DOJO library, you have a date in dd/mm/yyyy format, the day goes first, followed by the month, with the year at the end. The result string is displayed like this : 2019/12/31. Sometimes browser may reorder it incorrectly, sticking the year to the day, something like this: 312019/12/. It is a bug.
+                            </p>
+                            <figure>
+                              <img src='img/timeSliderEn.png' style="width: 48%;">
+                              <img src='img/timeSliderAr.png' style="width: 48%;">
+
+                              <figcaption>Bug example:"ss:mm:hh format instead of hh:mm:ss displays in the drop-down list of the Start/End time box in the time slider pane. In this example, Arabic UI (at the right) should display 23:59:59 instead of 59:59:23 (in the red frame).</figcaption>
+                            </figure>
+
+                            <figure>
+                              <img src='img/CalendarRTLcorrect.png' style="width: 48%;">
+                              <img src='img/CalendarRTLincorrect.png' style="width: 48%;">
+
+                              <figcaption>Days of the week should also go in RTL direction. The left picture with a green arrow is correct; the right picture with a red arrow is incorrect.</figcaption>
+                            </figure>
+
+                      <h4>Punctuation symbols</h4>
+                        <p>
+                          Punctuation symbols appear to the left and sometimes are mirrored.
+                        </p>
+                        <p>
+                          The question mark and percent sign are discussed in the Main differences between Hebrew and Arabic section. This table summarizes how math symbols should display:
+                        </p>
+
+                            <table>
+                                <tr class="specCharacters">
+                                    <th></th>
+                                    <th>LTR</th>
+                                    <th>RTL</th>
+
+                                </tr>
+                                <tr class="specCharacters">
+                                    <td>greater than 2</td>
+                                    <td>&gt;2</td>
+                                    <td>2&lt; </td>
+                                </tr>
+                                <tr class="specCharacters">
+                                    <td>less than 2</td>
+                                    <td>&lt;2</td>
+                                    <td>2&gt;</td>
+                                </tr>
+                                <tr class="specCharacters">
+                                    <td>minus 2</td>
+                                    <td>-2</td>
+                                    <td>2-</td>
+                                </tr>
+
+                            </table>
+                            <figcaption>Examples of numbers and math symbols in different systems</figcaption>
+
+                        <p>
+                          Sometimes English text with punctuation may look not very good in RTL layouts. There is no way to control the direction of user-defined text that may be typed in any language. For UI text coded by our developers, it is better to control the punctuation in Always English text like product names. If the developer is not sure how to do it, use LTR tags to prevent browsers from moving punctuation to inappropriate positions.
+                        </p>
+                        <p>
+                          The following is an example of an issue with ArcGIS Notebook Python 3 Advanced (3.0) with parenthesis wrapped incorrectly in RTL layout.
+                        </p>
+
+                            <figure>
+                              <img src="img/NotepadIncorrect.png" style="width: 500px;" alt="ArcGIS Notebook Python 3 product name parenthesis display incorrectly">
+                              <figcaption>Punctuation is fixed by applying an LTR tag to a portion of English text inside an RTL web page.</figcaption>
+                            </figure>
+                            <p>
+                              Solutions:
+                            </p>
+                            <p><xmp><option>ArcGIS Notebook Python 3 Standard (3.0)&lrm;</option></xmp></p>
+                            <p><xmp><option dir="ltr">ArcGIS Notebook Python 3 Standard (3.0)</option></xmp></p>
+                            <p><xmp><option style="direction:ltr;">ArcGIS Notebook Python 3 Standard (3.0)</option></xmp></p>
+
+                    <h4>Coordinates should follow BiDi rules, see examples below.</h4>
+                      <p>
+                        The XY coordinates are written as in English (X, Y), but from left to right (Y ,X).
+                      </p>
+                      <p>
+                        The minus sign follows the settings of the operating system.
+                      </p>
+                      <p>
+                        The latitude and longitude coordinates are written as longitude, latitude (opposite to English), but because of the general RTL text direction, longitude appears at the beginning of the string at the right side and latitude appears at the end of the string at the left side.
+                      </p>
+
+                          <table>
+                              <tr class="coordin">
+                                  <th>English Direction</th>
+                                  <th>Example (English)</th>
+                                  <th>Arabic direction</th>
+                                  <th>Example (Arabic)</th>
+                              </tr>
+                              <tr class="coordin">
+                                  <td>X, Y</td>
+                                  <td>-13,319,177.019, 4,345,163.550</td>
+                                  <td>Y , X</td>
+                                  <td>4,345,163.550 ,13,319,177.019-</td>
+                              </tr>
+                              <tr class="coordin">
+                                  <td>Lat, Long</td>
+                                  <td>36°19'22.94''N, 119°38'53.53''W</td>
+                                  <td>Lat ,Long</td>
+                                  <td>W°119'38''53.53 ,N °36'19''22.94</td>
+                              </tr>
+                          </table>
+
+                      <p>
+                        The X and Y coordinates are written in pairs (X, Y) in a mathematical format to represent the x- axis and y-axis. While cartographers write spherical coordinates in reverse order, latitude (Y) is first and then longitude (X). Coincidently, this is the correct reading direction for Arabic users, (Y, X) if you intend to use Y,X to represent that the same location in mathematical format.
+                      </p>
+                      <p>
+                        <em>Note:</em> Not all countries use N/S/E/W notation similar to English. Abbreviations in native characters are widely used in Russia, Thailand, Japan, and many other countries with non-Latin alphabets. Often those abbreviations of hemispheres are followed by abbreviations for latitude and longitude, so more than one character is required for each coordinate notation. Countries where Arabic is used refer to the cardinal directions as Ash Shamaliyah (N), Al Gharbiyah (W), Ash Sharqiyah (E), and Al Janobiyah (S). Additionally, Al Wusta is used for the center. For instance, N is written in AR as ثوانی
+                      </p>
+
+                    <h4>Lists are right-aligned and have bullets or numbers at the right of the text.</h4>
+                      <p>
+                        Ordered lists and unordered lists should be right-aligned, with bullets or patches at the right side. The same is true for icons. For a numbered list icon, don't flip it; a special icon exists in <a href="https://esri.github.io/calcite-ui-icons/#list-number-rtl" target="_blank">Calcite UI Icons</a>.
+                      </p>
+
+                        <figure>
+                          <img src='img/ListsAndLegendsLTR.jpg' style="width: 48%;">
+                          <img src='img/ListsAndLegendsRTL.jpg' style="width: 48%;">
+                        <figcaption>List and legend correctly wrapped in RTL UI.</figcaption>
+                      </figure>
+<br><br>
+                        <figure>
+                          <img src="img/Rombiki.JPG">
+                          <figcaption>An example of probably the most tricky symbology is displayed correctly in RTL. High-Low corner is at the left side, Low-High corner is at the right side both in LTR and RTL layouts, and all arrows are showing correct directions.</figcaption>
+                        </figure>
+
+                  <h4>Ordered lists are not just mirrored. Numbers and letters in bullets should stay the same.</h4>
+                          <figure>
+
+                            <img src="img/ListButtonRTL.JPG"  style="width: 10%;">
+                            <img src="img/listButton.PNG"  style="width: 10%;">
+                            <figcaption>Examples of ordered list and unordered list icons displaying in RTL correctly</figcaption>
+                            <img src="img/listButtonIncorrect.PNG"  style="width: 10%; transform: scaleX(-1); border: 2px solid red;">
+                            <figcaption>An example of a numbered list icon wrapped incorrectly</figcaption>
+                          </figure>
+
+                <h4>Menus, pop-ups, and drop-down menus should respect RTL direction.</h4>
+                        <img src="img/dropdowns.jpg">
+
+                <h4>Toolbars should respect RTL direction.</h4>
+                        <img src="img/toolbars.png">
+
+                <h4>Dialog layouts should be flipped, but there are some exclusions.</h4>
+                      <p>
+                        The order of most UI elements should go in RTL direction in AR and HE UI. Dialog boxes should be flipped.
+                      </p>
+                          <img src="img/dialogLayouts.jpg">
+                      <p>
+                        While tools within their panels are following their LTR or RTL order, there is an exclusion. Widgets within the map frame are always positioned the same, no matter RTL or LTR.
+                      </p>
+                          <img src="img/mfWidgets.jpg">
+
+                <h4>Icons and graphics remain LTR unless they contain directional meaning.</h4>
+                          <img src="img/iconsKeepDirection.png">
+
+                <h4>Undo and redo icons don't flip, but they switch their functionality.</h4>
+                          <img src="img/undoRedo.jpg">
+
+
+
+              <h4>Don't mirror checkmarks icons</h4>
+                        <img src="img/checkmarks.jpg">
+
+              <h4>Graphs, histograms, charts, and reports are LTR*.</h4>
+                      <figure>
+                        <img src="img/LTRgraph.png">
+                        <img src="img/RTLgraph.png">
+                    <figcaption>Don’t flip graphs. Axes should be the same as LTR. Be sure that all labels and other text are in the proper direction. Move the graph legend (if any) to the left and change its direction (see Lists).</figcaption>
+                      </figure>
+                  <p><em>* Note: There may be situations when a graph should go in RTL direction with the Y axes at the right side even in English. For instance, a graph may contain some historical or chronological data. Add an option for users to flip graphs if needed. Usually graphs and charts going in the "wrong" direction are considered low severity issues, but it is recommended that you keep them LTR for consistency reasons.</em></p>
+                  <p>
+                    Circular progress indicators derive their directionality from analog clocks and always turn in the clockwise direction.
+                  </p>
+
+              <h4>Time scales and animations are LTR</h4>
+                  <p>
+                    Everything imitating physical devices, like MP3 and MP4 players, goes LTR. Note that text under the animation timescale in the following example is correctly written in RTL direction for Arabic (right), compared to English (left):
+                  </p>
+                      <img src="img/TimeScale.png">
+
+              <h4>Map frames and map layouts are LTR</h4>
+
+                  <p>
+                    It is not recommended to flip the map frame and widget positions inside the map (Home, Zoom in, Zoom out, North Arrow, Scalebar, and so on). The app author must rearrange the widget positions if  needed for the design purposes. See the following example:
+                  </p>
+                    <figure>
+                      <img src="img/positionManager.png">
+                      <figcaption>An example of Positioning Manager allowing you to set positions of widgets within the map frame in Instant Apps.</figcaption>
+                    </figure>
+                  <p>
+                    The verbal scale text should go in RTL direction.
+                  </p>
+
+                <h4>Map legends should respect LTR or RTL direction</h4>
+                  <p>
+                    While in LTR languages, legend patches go to the left; in AR and HE they are usually right-aligned. In ArcGIS Pro, Desktop, and some web apps, there is an option for a cartographer to choose between positioning legend patches at the left or at the right for all languages if it is needed for cartographical purposes.
+                  </p>
+                    <figure>
+                      <img src="img/legendEn.png">
+                      <img src="img/legendRTL.png">
+                      <figcaption>An example of a legend with LTR and RTL layouts</figcaption>
+                    </figure>
+
+                <h4>Interactive elements moving in right or left direction should follow their direction.</h4>
+                  <p>
+                    Examples are vertical separators between windows and right-align and left-align buttons.
+                  </p>
+                    <figure>
+                      <img src="img/RTLmoving_opposite.gif">
+                      <figcaption>Here is a bad example when a pointer is moving to one side and a vertical separator is moving to opposite side. Avoid such behavior.</figcaption>
+                    </figure>
+                  <p>
+                    Test manually that if a tool has an arrow it moves the element the same direction shown in the icon.
+                  </p>
+                    <figure>
+                      <img src="img/arrowsDirection.png"><br><br>
+                      <img src="img/textEditorEn.png" style="width: 30%;">
+                      <img src="img/textEditorRtl.png" style="width: 30%;">
+                      <figcaption>If an arow is pointing to the left, it should move the element left; if an arrow is pointing to the right, it should move the element right. Right-align and left-align buttons should be applied to the text correctly.</figcaption>
+                    </figure>
+                 </section>
+
+                 <section id='Conclusion'>
+                <h3>Conclusion</h3>
+                  <p>
+                    Testing languages like AR and HE may seem tricky, but as long as you are aware of major key points, you can focus on them and perform manual testing successfully, regardless of whether you can read those languages.
+                   </p>
+
+                <h4>More details can be found in these resources:</h4>
+                <p>
+                   <a href="https://olga8614.github.io/RTL_checklist/" target="_blank">RTL Checklist</a>
+                </p>
+                <p>
+                   <a href="https://i18n.esri.com/website/html/RTL/index.html#general_1 " target="_blank">What to mirror</a>
+                </p>
+                <p>
+                   <a href="https://i18n.esri.com/website/html/RTL/index.html#general_2" target="_blank">What not to mirror</a>
+                </p>
+
+              </section>
+          </div>
+
+          <nav class="section-nav">
+              <ol>
+
+                    <a href="#introd">How to - test Arabic and Hebrew</a>
+                    <ul>
+                      <li><a href="#intro_1">Characteristics of Arabic or Hebrew</a></li>
+                      <li><a href="#testenv">Setting up the test environment</a></li>
+                      <li><a href="#pseudot">Pseudo versus real translations</a></li>
+                      <li><a href="#differ">Main differences between Hebrew and Arabic</a></li>
+                      <li><a href="#mirror">Mirroring versus bidirectional</a></li>
+                      <li><a href="#bidi">Handling bidirectional languages UI checklist</a></li>
+                      <li><a href="#Conclusion">Conclusion</a></li>
+
+                    </ul>
+
+              </ol>
+          </nav>
+      </main>
+  </div>
+  </body>
+</html>
